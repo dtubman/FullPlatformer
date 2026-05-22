@@ -5,16 +5,17 @@ class Platformer extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 400;
-        this.DRAG = 500;    // DRAG < ACCELERATION = icy slide
-        this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -600;
+        this.ACCELERATION = 500;
+        this.DRAG = 800;    // DRAG < ACCELERATION = icy slide
+        this.physics.world.gravity.y = 1000;
+        this.JUMP_VELOCITY = -750;
+        this.MAX_SPEED = 200;
         this.PARTICLE_VELOCITY = 50;
-        this.SCALE = 2.0;
+        this.SCALE = 2.5;
     }
 
     create() {
-        this.map = this.add.tilemap("platformer-level-1", 65, 65, 150, 25);
+        this.map = this.add.tilemap("platformer-level-1", 70, 70, 150, 25);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -36,8 +37,9 @@ class Platformer extends Phaser.Scene {
         
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(30, 345, "platformer_characters", "tile_0000.png");
+        my.sprite.player = this.physics.add.sprite(500, 1099, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
+        my.sprite.player.setScale(this.SCALE);
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
@@ -73,7 +75,9 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
         this.cameras.main.setDeadzone(50, 50);
-        this.cameras.main.setZoom(this.SCALE);
+        this.cameras.main.setZoom(0.75);
+        
+        this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     }
 
@@ -103,7 +107,7 @@ class Platformer extends Phaser.Scene {
             
             my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
 
-            my.vfx.walking.setParticleSpeed(-this.PARTICLE_VELOCITY, 0);
+            my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
 
             // Only play smoke effect if touching the ground
 
