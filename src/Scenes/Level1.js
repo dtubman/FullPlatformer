@@ -111,7 +111,7 @@ class Level1 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "Enemy2")
             .forEach(obj => {
-                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 147);
+                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 129);
                 enemy.setOrigin(0.5, 1).setScale(this.SCALE);
                 const props = {};
                 (obj.properties || []).forEach(p => props[p.name] = p.value);
@@ -134,7 +134,7 @@ class Level1 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "Enemy3")
             .forEach(obj => {
-                const enemy = this.shooters.create(obj.x, obj.y, "tilemap_sheet", 149);
+                const enemy = this.shooters.create(obj.x, obj.y, "tilemap_sheet", 129);
                 enemy.setOrigin(0.5, 1).setScale(this.SCALE);
                 enemy.body.immovable = true;
                 enemy.body.allowGravity = false;  // floats in place
@@ -478,13 +478,7 @@ class Level1 extends Phaser.Scene {
     this.dialogueOpen = true;
 
     // ── Level 1 ──
-    const npcText = "Watch out! There are others\nwho look just like me out there...\nbut they are NOT friendly!";
-    // ── Level 2 ──
-    // const npcText = "Deeper in, you'll find creatures\nthat charge at you when you get close.\nDon't let them get near!";
-    // ── Level 3 ──
-    // const npcText = "The ones further down\ndon't move — but they shoot.\nStay out of their line of sight!";
-    // ── Level 4 ──
-    // const npcText = "You're almost at the core!\nThe cheese is so close...\nYou can do it!";
+    const npcText = "Hello! Welcome to the Moon.\n There are other people like me out there,\nbut they are not friendly, Watch Out!";
 
     const camW = this.cameras.main.width;
     const camH = this.cameras.main.height;

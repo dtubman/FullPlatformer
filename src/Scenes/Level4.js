@@ -97,7 +97,7 @@ class Level4 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "Enemy2")
             .forEach(obj => {
-                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 147);
+                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 128);
                 enemy.setOrigin(0.5, 1).setScale(this.SCALE);
                 const props = {};
                 (obj.properties || []).forEach(p => props[p.name] = p.value);
@@ -118,7 +118,7 @@ class Level4 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "Enemy3")
             .forEach(obj => {
-                const enemy = this.shooters.create(obj.x, obj.y, "tilemap_sheet", 149);
+                const enemy = this.shooters.create(obj.x, obj.y, "tilemap_sheet", 129);
                 enemy.setOrigin(0.5, 1).setScale(this.SCALE);
                 enemy.body.immovable = true;
                 enemy.body.allowGravity = false;
@@ -392,7 +392,7 @@ class Level4 extends Phaser.Scene {
  
     showDialogue() {
         this.dialogueOpen = true;
-        const npcText = "You're almost at the core!\nThe cheese is so close...\nYou can do it!";
+        const npcText = "You're almost at the core!\nYou can do it!";
         const camW = this.cameras.main.width;
         const camH = this.cameras.main.height;
         this.dialogueBox = this.add.container(0, 0).setScrollFactor(0).setDepth(30);
