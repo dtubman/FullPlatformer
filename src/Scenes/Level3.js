@@ -41,7 +41,7 @@ class Level3 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "NPC")
             .forEach(obj => {
-                const npc = this.npcs.create(obj.x, obj.y, "tilemap_sheet", 120);
+                const npc = this.npcs.create(obj.x, obj.y, "tilemap_sheet", 145);
                 npc.setOrigin(0.5, 1).setScale(this.SCALE).refreshBody();
             });
  
@@ -142,7 +142,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(this.projectiles, this.groundLayer, (proj) => proj.destroy());
  
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(500, 1099, "platformer_characters", "tile_0000.png");
+        my.sprite.player = this.physics.add.sprite(100, 1500, "platformer_characters", "tile_0000.png");
         my.sprite.player.setCollideWorldBounds(true);
         my.sprite.player.setScale(this.SCALE);
         my.sprite.player.setMaxVelocity(this.MAX_SPEED);
@@ -251,13 +251,18 @@ class Level3 extends Phaser.Scene {
         }
  
         // NPC interaction
-        if (Phaser.Input.Keyboard.JustDown(this.eKey) && !this.dialogueOpen) {
+        if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+        if (this.dialogueOpen) {
+            this.closeDialogue();
+        } else {
             this.npcs.getChildren().forEach(npc => {
-                const dist = Phaser.Math.Distance.Between(my.sprite.player.x, my.sprite.player.y, npc.x, npc.y);
+                const dist = Phaser.Math.Distance.Between(
+                    my.sprite.player.x, my.sprite.player.y,
+                    npc.x, npc.y
+                );
                 if (dist < 120) this.showDialogue();
             });
-        } else if (Phaser.Input.Keyboard.JustDown(this.eKey) && this.dialogueOpen) {
-            this.closeDialogue();
+        }
         }
  
         // Enemy AI

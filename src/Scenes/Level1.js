@@ -50,7 +50,7 @@ class Level1 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "NPC")
             .forEach(obj => {
-                const npc = this.npcs.create(obj.x, obj.y, "tilemap_sheet", 120);
+                const npc = this.npcs.create(obj.x, obj.y, "tilemap_sheet", 145);
                 npc.setOrigin(0.5, 1).setScale(this.SCALE).refreshBody();
             });
 
@@ -300,18 +300,18 @@ class Level1 extends Phaser.Scene {
         }
 
         // NPC interaction
-        if (Phaser.Input.Keyboard.JustDown(this.eKey) && !this.dialogueOpen) {
+        if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+        if (this.dialogueOpen) {
+            this.closeDialogue();
+        } else {
             this.npcs.getChildren().forEach(npc => {
                 const dist = Phaser.Math.Distance.Between(
                     my.sprite.player.x, my.sprite.player.y,
                     npc.x, npc.y
                 );
-                if (dist < 120) {
-                    this.showDialogue();
-                }
+                if (dist < 120) this.showDialogue();
             });
-        } else if (Phaser.Input.Keyboard.JustDown(this.eKey) && this.dialogueOpen) {
-            this.closeDialogue();
+        }
         }
  
         // Enemy patrol
