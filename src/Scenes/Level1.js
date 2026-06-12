@@ -1,6 +1,6 @@
 class Platformer extends Phaser.Scene {
     constructor() {
-        super("platformerScene");
+        super("platformerScene1");
     }
 
     init() {
@@ -16,10 +16,11 @@ class Platformer extends Phaser.Scene {
         this.hasEasterEgg = false;
         this.isAlive = true;
         this.wasOnGround = false;
+        this.LEVEL_NUM = 1;
     }
 
     create() {
-        this.map = this.add.tilemap("platformer-level-1", 70, 70, 150, 25);
+        this.map = this.add.tilemap("Project4Level1", 70, 70, 150, 25);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -44,6 +45,20 @@ class Platformer extends Phaser.Scene {
                 coin.setOrigin(0.5, 1).setScale(1.5).refreshBody();
             });
 
+        // NPCs
+        this.npcs = this.physics.add.staticGroup();
+        this.map.getObjectLayer("Object Layer 1").objects
+            .filter(obj => obj.name === "NPC")
+            .forEach(obj => {
+                const npc = this.npcs.create(obj.x, obj.y, "tilemap_sheet", 120);
+                npc.setOrigin(0.5, 1).setScale(this.SCALE).refreshBody();
+            });
+
+        this.eKey = this.input.keyboard.addKey('E');
+        this.dialogueOpen = false;
+        this.dialogueBox = null;
+
+        
         //Easter egg
         this.easterEgg = this.physics.add.staticGroup();
         this.map.getObjectLayer("Object Layer 1").objects
@@ -289,6 +304,21 @@ class Platformer extends Phaser.Scene {
                 my.sprite.player.x,
                 my.sprite.player.y + my.sprite.player.displayHeight / 2);
         }
+
+        // NPC interaction
+        if (Phaser.Input.Keyboard.JustDown(this.eKey) && !this.dialogueOpen) {
+            this.npcs.getChildren().forEach(npc => {
+                const dist = Phaser.Math.Distance.Between(
+                    my.sprite.player.x, my.sprite.player.y,
+                    npc.x, npc.y
+                );
+                if (dist < 120) {
+                    this.showDialogue();
+                }
+            });
+        } else if (Phaser.Input.Keyboard.JustDown(this.eKey) && this.dialogueOpen) {
+            this.closeDialogue();
+        }
  
         // Enemy patrol
         const RUSHER_DETECT_RANGE = 300;
@@ -359,13 +389,37 @@ class Platformer extends Phaser.Scene {
             this.scene.restart();
         }
     }
+    
     collectCoin(player, coin) {
-        coin.destroy();
-        this.score += 100;
-        this.scoreText.setText("Score: " + this.score);
-        this.sfxCoin.play();
+    coin.destroy();
+    this.score += 100;
+    this.scoreText.setText("Score: " + this.score);
+    this.sfxCoin.play();
+
+    if (this.hasEasterEgg && this.score >= 2500) {
+        this.reachCheeseEnding();
+    }
     }
  
+    reachCheeseEnding() {
+    if (!this.isAlive) return;
+    this.isAlive = false;
+    this.bgm.stop();
+    this.sfxWin.play();
+
+    
+    GameState.unlock(this.LEVEL_NUM, "treasureHunter");
+
+    my.sprite.player.setVelocity(0, 0);
+    my.sprite.player.setAccelerationX(0);
+    my.vfx.walking.stop();
+
+    this.showEndScreen(
+        "✨ A true treasure hunter!\nYou found the diamond\nand all the cheese bits!\nScore: " + this.score,
+        "#ffe066"
+    );
+    }
+
     collectEasterEgg(player, egg) {
         egg.destroy();
         this.hasEasterEgg = true;
@@ -393,6 +447,8 @@ class Platformer extends Phaser.Scene {
         this.isAlive = false;
         this.bgm.stop();
         this.sfxWin.play();
+        
+        GameState.unlock(this.LEVEL_NUM, "normalWin");
  
         player.setVelocity(0, 0);
         player.setAccelerationX(0);
@@ -410,6 +466,8 @@ class Platformer extends Phaser.Scene {
     this.isAlive = false;
     this.bgm.stop();
     this.sfxWin.play();
+        
+    GameState.unlock(this.LEVEL_NUM, "wentHome");
 
     player.setVelocity(0, 0);
     player.setAccelerationX(0);
@@ -422,6 +480,44 @@ class Platformer extends Phaser.Scene {
     this.showEndScreen(msg, "#aaddff");
     }
 
+    showDialogue() {
+    this.dialogueOpen = true;
+
+    // ── Level 1 ──
+    const npcText = "Watch out! There are others\nwho look just like me out there...\nbut they are NOT friendly!";
+    // ── Level 2 ──
+    // const npcText = "Deeper in, you'll find creatures\nthat charge at you when you get close.\nDon't let them get near!";
+    // ── Level 3 ──
+    // const npcText = "The ones further down\ndon't move — but they shoot.\nStay out of their line of sight!";
+    // ── Level 4 ──
+    // const npcText = "You're almost at the core!\nThe cheese is so close...\nYou can do it!";
+
+    const camW = this.cameras.main.width;
+    const camH = this.cameras.main.height;
+
+    this.dialogueBox = this.add.container(0, 0).setScrollFactor(0).setDepth(30);
+
+    const bg = this.add.rectangle(camW / 2, camH - 100, camW - 40, 130, 0x000000, 0.85)
+        .setStrokeStyle(2, 0xffffff);
+    const text = this.add.text(camW / 2, camH - 100, npcText, {
+        fontSize: "16px", fill: "#ffffff",
+        stroke: "#000000", strokeThickness: 3,
+        align: "center"
+    }).setOrigin(0.5);
+    const prompt = this.add.text(camW / 2, camH - 45, "[E] Close", {
+        fontSize: "12px", fill: "#aaaaaa"
+    }).setOrigin(0.5);
+
+    this.dialogueBox.add([bg, text, prompt]);
+    }
+
+    closeDialogue() {
+        this.dialogueOpen = false;
+        if (this.dialogueBox) {
+            this.dialogueBox.destroy();
+            this.dialogueBox = null;
+        }
+    }
  
     playerDie() {
         if (!this.isAlive) return;
@@ -467,9 +563,10 @@ class Platformer extends Phaser.Scene {
         }).setOrigin(0.5).setScrollFactor(0).setDepth(20);
  
         this.input.keyboard.once("keydown-R", () => {
-            this.MAX_SPEED = 2000;
-            this.scene.restart();
+        this.MAX_SPEED = 2000;
+        this.scene.start("titleScene");
         });
+
     }
     fireProjectile(shooter) {
         // Shoot toward the player's current position
