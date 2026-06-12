@@ -183,9 +183,18 @@ class Level1 extends Phaser.Scene {
         this.rKey = this.input.keyboard.addKey('R');
 
         // debug key listener (assigned to D key)
-        this.input.keyboard.on('keydown-D', () => {
-            this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
-            this.physics.world.debugGraphic.clear()
+       this.input.keyboard.on('keydown-D', () => {
+            if (this.physics.world.drawDebug) {
+                this.physics.world.drawDebug = false;
+                if (this.physics.world.debugGraphic) {
+                    this.physics.world.debugGraphic.clear();
+                    this.physics.world.debugGraphic.destroy();
+                    this.physics.world.debugGraphic = null;
+                }
+            } else {
+                this.physics.world.drawDebug = true;
+                this.physics.world.debugGraphic = this.add.graphics();
+            }
         }, this);
 
         // movement vfx
@@ -409,7 +418,7 @@ class Level1 extends Phaser.Scene {
     my.vfx.walking.stop();
 
     this.showEndScreen(
-        "✨ A true treasure hunter!\nYou found the diamond\nand all the cheese bits!\nScore: " + this.score,
+        "✨ A true treasure hunter!\nYou found the diamond\nand a lot of cheese bits!\nScore: " + this.score,
         "#ffe066"
     );
     }
