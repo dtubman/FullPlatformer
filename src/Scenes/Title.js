@@ -61,7 +61,7 @@ class Title extends Phaser.Scene {
     }
  
     createLevelCard(cx, cy, cardW, cardH, levelNum, levelName) {
-        const endings = Gamestate.get(levelNum);
+        const endings = GameState.get(levelNum);
  
         // Card background
         const bg = this.add.rectangle(cx, cy, cardW, cardH, 0x1a1a3a)
