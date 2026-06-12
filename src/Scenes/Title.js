@@ -102,17 +102,16 @@ class Title extends Phaser.Scene {
         });
  
         // Hover highlight
-        bg.on("pointerover", () => bg.setFillColor(0x2a2a5a));
-        bg.on("pointerout",  () => bg.setFillColor(0x1a1a3a));
+        bg.on("pointerover", () => bg.setFillStyle(0x2a2a5a));
+        bg.on("pointerout",  () => bg.setFillStyle(0x1a1a3a));
  
         // Click to start level
         bg.on("pointerdown", () => {
-            // Each level uses its own scene key — update these to match yours
             const sceneKeys = {
-                1: "platformerScene",   // Level1.js
-                2: "platformerScene2",  // Level2.js  ← rename your scene keys (see note)
-                3: "platformerScene3",  // Level3.js
-                4: "platformerScene4",  // Level4.js
+                1: "platformerScene1",
+                2: "platformerScene2",
+                3: "platformerScene3",
+                4: "platformerScene4",
             };
             this.scene.start(sceneKeys[levelNum]);
         });

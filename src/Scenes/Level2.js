@@ -1,4 +1,4 @@
-class Platformer extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor() {
         super("platformerScene2");
     }

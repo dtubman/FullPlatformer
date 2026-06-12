@@ -13,7 +13,7 @@ class Load extends Phaser.Scene {
         this.load.image("tilemap_tiles", "sheet.png");
         this.load.image("kenny_tiles", "tilemap_packed.png");
  
-        // Load each level's map — add/rename these to match your .tmj filenames
+        // Load each level's map
         this.load.tilemapTiledJSON("Project4Level1", "Project4Level1.tmj");
         this.load.tilemapTiledJSON("Project4Level2", "Project4Level2.tmj");
         this.load.tilemapTiledJSON("Project4Level3", "Project4Level3.tmj");
