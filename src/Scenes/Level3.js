@@ -21,7 +21,7 @@ class Level3 extends Phaser.Scene {
     create() {
         this.map = this.add.tilemap("Project4Level3", 70, 70, 150, 25);
  
-        this.tileset = this.map.addTilesetImage("Project3Tileset", "tilemap_tiles");
+        this.tileset = this.map.addTilesetImage("Project4Level3", "tilemap_tiles_purple");
         this.kennyTileset = this.map.addTilesetImage("kenny_tilemap_packed", "kenny_tiles");
  
         this.groundLayer = this.map.createLayer("Tile Layer 1", [this.tileset, this.kennyTileset], 0, 0);

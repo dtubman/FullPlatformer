@@ -86,8 +86,6 @@ class Level1 extends Phaser.Scene {
                 sf.setOrigin(0.5, 1).setScale(3).refreshBody();
             });
 
-        this.physics.add.overlap(my.sprite.player, this.secretFlag, this.reachSecretFlag, null, this);
-
         //Enemies
          //Patrol enemies
         this.enemies = this.physics.add.group();
@@ -160,15 +158,6 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.shooters, this.groundLayer);
         this.physics.add.collider(this.projectiles, this.groundLayer,
             (proj) => proj.destroy());   // projectiles vanish on ground hit
- 
-        this.physics.add.overlap(my.sprite.player, this.enemies,
-            this.hitByEnemy, null, this);
-        this.physics.add.overlap(my.sprite.player, this.rushers,
-            this.hitByEnemy, null, this);
-        this.physics.add.overlap(my.sprite.player, this.shooters,
-            this.hitByEnemy, null, this);
-        this.physics.add.overlap(my.sprite.player, this.projectiles,
-            this.hitByProjectile, null, this);
         
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(500, 1099, "platformer_characters", "tile_0000.png");
@@ -178,10 +167,15 @@ class Level1 extends Phaser.Scene {
 
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.groundLayer);
-
-        this.physics.add.overlap(my.sprite.player, this.coins,     this.collectCoin,     null, this);
-        this.physics.add.overlap(my.sprite.player, this.easterEgg, this.collectEasterEgg, null, this);
-        this.physics.add.overlap(my.sprite.player, this.flag,      this.reachFlag,        null, this);
+        
+        this.physics.add.overlap(my.sprite.player, this.coins,       this.collectCoin,      null, this);
+        this.physics.add.overlap(my.sprite.player, this.easterEgg,   this.collectEasterEgg, null, this);
+        this.physics.add.overlap(my.sprite.player, this.flag,        this.reachFlag,        null, this);
+        this.physics.add.overlap(my.sprite.player, this.secretFlag,  this.reachSecretFlag,  null, this);
+        this.physics.add.overlap(my.sprite.player, this.enemies,     this.hitByEnemy,       null, this);
+        this.physics.add.overlap(my.sprite.player, this.rushers,     this.hitByEnemy,       null, this);
+        this.physics.add.overlap(my.sprite.player, this.shooters,    this.hitByEnemy,       null, this);
+        this.physics.add.overlap(my.sprite.player, this.projectiles, this.hitByProjectile,  null, this);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
