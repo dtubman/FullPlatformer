@@ -111,7 +111,7 @@ class Level1 extends Phaser.Scene {
         this.map.getObjectLayer("Object Layer 1").objects
             .filter(obj => obj.name === "Enemy2")
             .forEach(obj => {
-                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 129);
+                const enemy = this.rushers.create(obj.x, obj.y, "tilemap_sheet", 128);
                 enemy.setOrigin(0.5, 1).setScale(this.SCALE);
                 const props = {};
                 (obj.properties || []).forEach(p => props[p.name] = p.value);
