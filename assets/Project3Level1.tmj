@@ -624,19 +624,6 @@
                 }, 
                 {
                  "gid":179,
-                 "height":70,
-                 "id":71,
-                 "name":"Enemy2",
-                 "opacity":1,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":70,
-                 "x":4900,
-                 "y":1540
-                }, 
-                {
-                 "gid":179,
                  "height":18,
                  "id":72,
                  "name":"",
@@ -662,32 +649,6 @@
                  "y":2033
                 }, 
                 {
-                 "gid":179,
-                 "height":70,
-                 "id":74,
-                 "name":"Enemy2",
-                 "opacity":1,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":70,
-                 "x":5810,
-                 "y":980
-                }, 
-                {
-                 "gid":178,
-                 "height":70,
-                 "id":75,
-                 "name":"Enemy3",
-                 "opacity":1,
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":70,
-                 "x":8610,
-                 "y":1120
-                }, 
-                {
                  "gid":195,
                  "height":70,
                  "id":76,
@@ -699,6 +660,45 @@
                  "width":70,
                  "x":700,
                  "y":1120
+                }, 
+                {
+                 "gid":195,
+                 "height":70,
+                 "id":77,
+                 "name":"Enemy",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":70,
+                 "x":4900,
+                 "y":1540
+                }, 
+                {
+                 "gid":195,
+                 "height":70,
+                 "id":78,
+                 "name":"Enemy",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":70,
+                 "x":5810,
+                 "y":980
+                }, 
+                {
+                 "gid":195,
+                 "height":70,
+                 "id":79,
+                 "name":"Enemy",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":70,
+                 "x":8610,
+                 "y":1120
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -707,7 +707,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":77,
+ "nextobjectid":80,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",
@@ -1183,7 +1183,7 @@
         }, 
         {
          "firstgid":230,
-         "source":"Project3Tileset.tsj"
+         "source":"Project3Level1.tsj"
         }],
  "tilewidth":70,
  "type":"map",
